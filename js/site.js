@@ -393,6 +393,15 @@
   mwFile.addEventListener('change', () => { loadWall(mwFile.files[0]); mwFile.value = ''; });
   ['dragenter', 'dragover'].forEach(t => mwDrop.addEventListener(t, () => mwDrop.classList.add('is-over')));
   ['dragleave', 'drop'].forEach(t => mwDrop.addEventListener(t, () => mwDrop.classList.remove('is-over')));
+  // A photo dropped anywhere in the viewer is used as the wall (instead of the browser opening the file).
+  lb.addEventListener('dragover', e => { if (e.dataTransfer?.types?.includes('Files')) e.preventDefault(); });
+  lb.addEventListener('drop', e => {
+    const file = e.dataTransfer?.files?.[0];
+    if (!file || e.target === mwFile) return; // the upload box's own input handles itself
+    e.preventDefault();
+    if (view !== 'mine') setView('mine');
+    loadWall(file);
+  });
   mw('.mywall-change').addEventListener('click', () => { mine.url = null; layoutMine(lbList[lbIndex]); });
 
   // Wall width typed in: resize. Slider moved: work out the wall width it implies,
