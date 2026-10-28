@@ -501,7 +501,7 @@ h2 em, h1 em { font-style: italic; }
   .lb-actions { margin-top: 18px; grid-template-columns: 1fr; }
   .lb-hint { display: none; }
   .mywall-photo { max-height: calc(100svh - 430px); }
-  .mywall-drop { padding: 28px 18px; }
+  .mywall-drop { padding: 28px 18px; width: calc(100% - 112px); } /* clear the prev/next arrows */
   .mywall-drop b { font-size: 22px; }
   .mywall-controls { gap: 8px 14px; font-size: 13px; }
   .lb-toggle button { font-size: 13px; }
