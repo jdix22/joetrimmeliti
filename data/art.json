@@ -1,0 +1,39 @@
+{
+  "artworks": [
+    { "id": "abstract-24", "title": "Abstract 24", "medium": "Oil on gallery canvas", "size": "30 × 40 in", "price": 2400, "status": "available", "w": 2000, "h": 1498 },
+    { "id": "happy-valley-fall", "title": "Happy Valley Fall", "medium": "Oil on gallery canvas", "size": "30 × 48 in", "price": 2800, "status": "available", "w": 2000, "h": 1233 },
+    { "id": "attraction", "title": "Attraction", "medium": "Oil on gallery canvas, natural frame", "size": "12 × 12 in", "price": 400, "status": "available", "w": 1983, "h": 2000 },
+    { "id": "painted-forest", "title": "Painted Forest", "medium": "Oil on gallery canvas", "size": "36 × 36 in", "price": 2500, "status": "available", "w": 1984, "h": 2000 },
+    { "id": "pines-in-winter", "title": "Pines in Winter", "medium": "Oil on stretched canvas", "size": "10 × 10 in", "price": 200, "status": "available", "w": 1989, "h": 2000 },
+    { "id": "red-rocks", "title": "Red Rocks", "medium": "Oil on gallery canvas", "size": "40 × 40 in", "price": 2100, "status": "available", "w": 2000, "h": 1972 },
+    { "id": "spring-meadows", "title": "Spring Meadows", "medium": "Oil on gallery canvas", "size": "24 × 48 in", "price": 2300, "status": "available", "w": 2000, "h": 977 },
+    { "id": "on-the-rocks", "title": "On the Rocks", "medium": "Oil on stretched canvas", "size": "10 × 20 in", "price": 200, "status": "available", "w": 2000, "h": 929 },
+    { "id": "horizon", "title": "Horizon", "medium": "Acrylic on stretched canvas", "size": "30 × 24 in", "price": 600, "status": "available", "w": 2000, "h": 1585 },
+    { "id": "in-the-garden", "title": "In the Garden", "medium": "Oil on gallery canvas", "size": "12 × 12 in", "price": 300, "status": "available", "w": 1973, "h": 2000 },
+    { "id": "sunset", "title": "Sunset", "medium": "Oil on gallery canvas", "size": "20 × 40 in", "price": 1600, "status": "available", "w": 2000, "h": 1005 },
+    { "id": "true-colours", "title": "True Colours", "medium": "Oil on gallery canvas", "size": "36 × 60 in", "price": 4300, "status": "available", "featured": true, "w": 2000, "h": 1186 },
+    { "id": "catch-the-wind", "title": "Catch the Wind", "medium": "Oil and acrylic on stretched canvas", "size": "18 × 24 in", "price": 860, "status": "available", "w": 2000, "h": 1491 },
+    { "id": "painted-pond", "title": "Painted Pond", "medium": "Oil on gallery canvas, white frame", "size": "12 × 12 in", "price": 400, "status": "available", "w": 1992, "h": 2000 },
+    { "id": "adrift", "title": "Adrift", "medium": "Acrylic on gallery canvas", "size": "", "price": null, "status": "sold", "w": 1202, "h": 2000 },
+    { "id": "content", "title": "Content", "medium": "Acrylic", "size": "", "price": null, "status": "sold", "w": 1500, "h": 2000 },
+    { "id": "summer-breeze", "title": "Summer Breeze", "medium": "Oil on gallery canvas", "size": "", "price": null, "status": "sold", "w": 2000, "h": 1505 },
+    { "id": "abstract-74", "title": "Abstract 74", "medium": "Acrylic on wood panel", "size": "", "price": null, "status": "sold", "w": 2000, "h": 1451 },
+    { "id": "mighty-oak", "title": "Mighty Oak", "medium": "Acrylic on gallery canvas", "size": "", "price": null, "status": "sold", "w": 2000, "h": 1512 },
+    { "id": "pink-lilies", "title": "Pink Lilies", "medium": "", "size": "", "price": null, "status": "sold", "w": 1987, "h": 2000 },
+    { "id": "proud", "title": "Proud", "medium": "Acrylic on gallery canvas", "size": "", "price": null, "status": "sold", "w": 2000, "h": 1948 },
+    { "id": "homage-to-vincent", "title": "Homage to Vincent", "medium": "Oil on gallery canvas", "size": "", "price": null, "status": "sold", "w": 1975, "h": 2000 },
+    { "id": "imagine", "title": "Imagine", "medium": "Oil on gallery canvas", "size": "", "price": null, "status": "sold", "w": 1566, "h": 2000 },
+    { "id": "king-trail", "title": "King Trail", "medium": "Acrylic on gallery canvas", "size": "", "price": null, "status": "sold", "w": 2000, "h": 1958 },
+    { "id": "summer-meadows", "title": "Summer Meadows", "medium": "Oil on gallery canvas", "size": "", "price": null, "status": "sold", "w": 2000, "h": 1006 },
+    { "id": "summer-trail", "title": "Summer Trail", "medium": "", "size": "", "price": null, "status": "sold", "w": 1118, "h": 748 },
+    { "id": "summer-tapestry", "title": "Summer Tapestry", "medium": "Oil on gallery canvas", "size": "", "price": null, "status": "sold", "w": 2000, "h": 1630 },
+    { "id": "yellow-lilies", "title": "Yellow Lilies", "medium": "Oil on gallery canvas", "size": "", "price": null, "status": "sold", "w": 2000, "h": 1583 },
+    { "id": "spring-tapestry", "title": "Spring Tapestry", "medium": "Oil on gallery canvas", "size": "", "price": null, "status": "sold", "w": 1680, "h": 2000 },
+    { "id": "happy-valley-2", "title": "Happy Valley 2", "medium": "Oil on gallery canvas", "size": "30 × 48 in", "price": null, "status": "sold", "w": 1666, "h": 2000 },
+    { "id": "white-fish-lake", "title": "White Fish Lake", "medium": "", "size": "", "price": null, "status": "sold", "w": 2000, "h": 1595 }
+  ],
+  "events": [
+    { "id": "deck-the-walls-2024", "title": "Deck the Walls Art Show and Sale", "date": "2024-11-09", "time": "10:00 am – 4:00 pm", "venue": "King Heritage & Cultural Centre", "address": "2920 King Road, King City, Ontario L7B 1L6", "image": "_ev-deck" },
+    { "id": "autumn-reflections-2024", "title": "Autumn Reflections En Plein Air", "date": "2024-10-26", "time": "1:00 pm – 4:00 pm", "venue": "Pottageville Pavilion", "address": "4380 18th Side Rd, Kettleby, Ontario L0G 1J0", "image": "_ev-autumn" }
+  ]
+}

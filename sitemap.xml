@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://joetrimmeliti.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image><image:loc>https://joetrimmeliti.com/img/art/full/true-colours.jpg</image:loc><image:title>True Colours by Joe Trimmeliti</image:title></image:image>
+    <image:image><image:loc>https://joetrimmeliti.com/img/art/full/painted-forest.jpg</image:loc><image:title>Painted Forest by Joe Trimmeliti</image:title></image:image>
+    <image:image><image:loc>https://joetrimmeliti.com/img/art/full/happy-valley-fall.jpg</image:loc><image:title>Happy Valley Fall by Joe Trimmeliti</image:title></image:image>
+    <image:image><image:loc>https://joetrimmeliti.com/img/art/full/abstract-24.jpg</image:loc><image:title>Abstract 24 by Joe Trimmeliti</image:title></image:image>
+    <image:image><image:loc>https://joetrimmeliti.com/img/art/full/red-rocks.jpg</image:loc><image:title>Red Rocks by Joe Trimmeliti</image:title></image:image>
+    <image:image><image:loc>https://joetrimmeliti.com/img/art/full/spring-meadows.jpg</image:loc><image:title>Spring Meadows by Joe Trimmeliti</image:title></image:image>
+    <image:image><image:loc>https://joetrimmeliti.com/img/art/full/sunset.jpg</image:loc><image:title>Sunset by Joe Trimmeliti</image:title></image:image>
+  </url>
+</urlset>

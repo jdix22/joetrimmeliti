@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Studio — Joe Trimmeliti</title>
+<link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- LOADING -->
+<section class="screen center" id="screen-loading">
+  <p class="muted">Opening the studio…</p>
+</section>
+
+<!-- ONE-TIME SETUP (only shown before a password exists) -->
+<section class="screen center" id="screen-setup" hidden>
+  <form class="card narrow" id="setup-form" autocomplete="off">
+    <svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M6 9h21M16.5 9v17c0 5-3.5 7.5-8 6.5" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><path d="M24 9v24M24 9c6 0 10 2 10 6.5" fill="none" stroke="#e0662b" stroke-width="3.2" stroke-linecap="round"/></svg>
+    <h1>Set up the <em>studio</em></h1>
+    <p class="muted">One-time setup for whoever manages the site. You’ll need a GitHub fine-grained access token for this repository with <b>Contents: Read and write</b>. It is encrypted with the password you choose here and never stored in plain text.</p>
+    <label class="field"><span>Repository</span><input name="repo" required placeholder="owner/repo"></label>
+    <label class="field"><span>Branch</span><input name="branch" required value="main"></label>
+    <label class="field"><span>GitHub access token</span><input name="token" type="password" required placeholder="github_pat_…"></label>
+    <label class="field"><span>Choose Joe’s password</span><input name="pw" type="password" required minlength="10" autocomplete="new-password"></label>
+    <label class="field"><span>Repeat password</span><input name="pw2" type="password" required minlength="10" autocomplete="new-password"></label>
+    <p class="hint">At least 10 characters. A short phrase works well, e.g. “pines in winter 1974”.</p>
+    <button class="btn btn-dark btn-wide" type="submit">Encrypt &amp; save</button>
+    <p class="status" role="status"></p>
+  </form>
+</section>
+
+<!-- LOGIN -->
+<section class="screen center" id="screen-login" hidden>
+  <form class="card narrow" id="login-form">
+    <svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M6 9h21M16.5 9v17c0 5-3.5 7.5-8 6.5" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><path d="M24 9v24M24 9c6 0 10 2 10 6.5" fill="none" stroke="#e0662b" stroke-width="3.2" stroke-linecap="round"/></svg>
+    <h1>Joe’s <em>studio</em></h1>
+    <p class="muted">Sign in to add, edit or remove paintings.</p>
+    <input type="text" name="username" value="joe" autocomplete="username" hidden>
+    <label class="field"><span>Password</span><input name="pw" type="password" required autocomplete="current-password" autofocus></label>
+    <button class="btn btn-dark btn-wide" type="submit">Sign in</button>
+    <p class="status" role="status"></p>
+  </form>
+</section>
+
+<!-- DASHBOARD -->
+<section class="screen" id="screen-app" hidden>
+  <header class="topbar">
+    <div class="topbar-l">
+      <svg class="mark sm" viewBox="0 0 40 40" aria-hidden="true"><path d="M6 9h21M16.5 9v17c0 5-3.5 7.5-8 6.5" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><path d="M24 9v24M24 9c6 0 10 2 10 6.5" fill="none" stroke="#e0662b" stroke-width="3.2" stroke-linecap="round"/></svg>
+      <strong>Studio</strong>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button role="tab" class="is-on" data-tab="paintings">Paintings</button>
+      <button role="tab" data-tab="events">Events</button>
+      <button role="tab" data-tab="settings">Settings</button>
+    </nav>
+    <div class="topbar-r">
+      <a href="../" target="_blank" rel="noopener">View site ↗</a>
+      <button class="linkish" id="logout">Sign out</button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <!-- paintings -->
+    <section class="tab-panel" id="tab-paintings">
+      <div class="panel-head">
+        <div>
+          <h2>Paintings</h2>
+          <p class="muted" id="count-line"></p>
+        </div>
+        <button class="btn btn-dark" id="add-art">+ Add a painting</button>
+      </div>
+      <p class="tip">Use the arrows to set the order paintings appear on the site. The ★ painting is shown large near the top of the home page.</p>
+      <ul class="art-list" id="art-list"></ul>
+    </section>
+
+    <!-- events -->
+    <section class="tab-panel" id="tab-events" hidden>
+      <div class="panel-head">
+        <div><h2>Shows &amp; events</h2><p class="muted">Upcoming events show at the top of the Events section; past ones move to “Past shows” automatically.</p></div>
+        <button class="btn btn-dark" id="add-event">+ Add an event</button>
+      </div>
+      <ul class="event-list" id="event-list"></ul>
+    </section>
+
+    <!-- settings -->
+    <section class="tab-panel" id="tab-settings" hidden>
+      <div class="panel-head"><div><h2>Settings</h2></div></div>
+      <form class="card" id="pw-form" autocomplete="off">
+        <h3>Change password</h3>
+        <label class="field"><span>New password</span><input name="pw" type="password" minlength="10" required autocomplete="new-password"></label>
+        <label class="field"><span>Repeat new password</span><input name="pw2" type="password" minlength="10" required autocomplete="new-password"></label>
+        <button class="btn btn-dark" type="submit">Change password</button>
+        <p class="status" role="status"></p>
+      </form>
+      <div class="card">
+        <h3>How publishing works</h3>
+        <p class="muted">Your edits are kept on this page until you press <b>Publish</b>. Publishing saves everything to the website in one go, and the public site updates within a minute or two. If you close the page before publishing, unpublished edits are lost.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- publish bar -->
+  <div class="publish-bar" id="publish-bar" hidden>
+    <p><b id="pending-count">0</b> unpublished change(s)</p>
+    <div>
+      <button class="btn btn-ghost" id="discard">Discard</button>
+      <button class="btn btn-accent" id="publish">Publish to website</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAINTING EDITOR -->
+<dialog class="editor" id="art-editor">
+  <form method="dialog" id="art-form">
+    <header class="editor-head">
+      <h2 id="art-editor-title">Add a painting</h2>
+      <button class="x" value="cancel" formnovalidate aria-label="Close">×</button>
+    </header>
+    <div class="editor-body">
+      <label class="drop" id="drop">
+        <input type="file" accept="image/*" id="art-file">
+        <img id="art-preview" alt="" hidden>
+        <span class="drop-msg" id="drop-msg"><b>Choose a photo</b> or drag it here<br><small>JPG or PNG. It will be resized automatically.</small></span>
+      </label>
+      <div class="editor-fields">
+        <label class="field"><span>Title</span><input name="title" required maxlength="80"></label>
+        <label class="field"><span>Medium</span><input name="medium" list="mediums" maxlength="80" placeholder="e.g. Oil on gallery canvas"></label>
+        <datalist id="mediums">
+          <option value="Oil on gallery canvas"><option value="Oil on stretched canvas"><option value="Acrylic on gallery canvas">
+          <option value="Acrylic on stretched canvas"><option value="Oil and acrylic on stretched canvas"><option value="Acrylic on wood panel">
+          <option value="Oil on gallery canvas, natural frame"><option value="Oil on gallery canvas, white frame">
+        </datalist>
+        <div class="field-row">
+          <label class="field"><span>Width (inches)</span><input name="sw" type="number" min="1" max="200" step="0.5" inputmode="decimal"></label>
+          <label class="field"><span>Height (inches)</span><input name="sh" type="number" min="1" max="200" step="0.5" inputmode="decimal"></label>
+        </div>
+        <div class="field-row">
+          <label class="field"><span>Price ($)</span><input name="price" type="number" min="0" step="10" inputmode="numeric" placeholder="Leave blank for “Inquire”"></label>
+          <label class="field"><span>Status</span>
+            <select name="status"><option value="available">Available</option><option value="sold">Sold</option></select>
+          </label>
+        </div>
+        <label class="check"><input type="checkbox" name="featured"> <span>★ Feature this painting on the home page</span></label>
+        <label class="check"><input type="checkbox" name="hidden"> <span>Hide from the website for now</span></label>
+      </div>
+    </div>
+    <footer class="editor-foot">
+      <p class="status" id="art-status" role="status"></p>
+      <button class="btn btn-ghost" value="cancel" formnovalidate>Cancel</button>
+      <button class="btn btn-dark" id="art-save" value="save">Save painting</button>
+    </footer>
+  </form>
+</dialog>
+
+<!-- EVENT EDITOR -->
+<dialog class="editor" id="event-editor">
+  <form method="dialog" id="event-form">
+    <header class="editor-head">
+      <h2 id="event-editor-title">Add an event</h2>
+      <button class="x" value="cancel" formnovalidate aria-label="Close">×</button>
+    </header>
+    <div class="editor-body">
+      <label class="drop small" id="ev-drop">
+        <input type="file" accept="image/*" id="ev-file">
+        <img id="ev-preview" alt="" hidden>
+        <span class="drop-msg" id="ev-drop-msg"><b>Poster</b> (optional)</span>
+      </label>
+      <div class="editor-fields">
+        <label class="field"><span>Event name</span><input name="title" required maxlength="100"></label>
+        <div class="field-row">
+          <label class="field"><span>Date</span><input name="date" type="date" required></label>
+          <label class="field"><span>Time</span><input name="time" maxlength="40" placeholder="10:00 am – 4:00 pm"></label>
+        </div>
+        <label class="field"><span>Venue</span><input name="venue" required maxlength="100"></label>
+        <label class="field"><span>Address</span><input name="address" maxlength="160" placeholder="Street, town, province"></label>
+      </div>
+    </div>
+    <footer class="editor-foot">
+      <p class="status" role="status"></p>
+      <button class="btn btn-ghost" value="cancel" formnovalidate>Cancel</button>
+      <button class="btn btn-dark" value="save">Save event</button>
+    </footer>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="admin.js" defer></script>
+</body>
+</html>
