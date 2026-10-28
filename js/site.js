@@ -254,6 +254,7 @@
     roomBtn.title = dims(a) ? '' : 'Size not listed for this painting';
     if (!dims(a) && view === 'room') setView('art');
     if (view === 'room') layoutRoom(a);
+    if (view === 'mine') layoutMine(a);
     tint(a);
     document.title = `${a.title} — Joe Trimmeliti`;
   }
@@ -331,9 +332,127 @@
     $$('.lb-toggle button', lb).forEach(b => b.classList.toggle('is-on', b.dataset.view === v));
     $('.lb-view-art', lb).hidden = v !== 'art';
     $('.lb-view-room', lb).hidden = v !== 'room';
-    $('.lb-hint', lb).textContent = v === 'art' ? 'Click the painting to zoom into the paint.' : 'Sizes are approximate.';
+    $('.lb-view-mine', lb).hidden = v !== 'mine';
+    $('.lb-hint', lb).textContent = {
+      art: 'Click the painting to zoom into the paint.',
+      room: 'Sizes are approximate.',
+      mine: 'Drag the painting to place it, or tap your photo to move it there. Your photo never leaves your device.'
+    }[v];
     if (v === 'room') layoutRoom(lbList[lbIndex]);
+    if (v === 'mine') layoutMine(lbList[lbIndex]);
   }
+
+  // "Your wall": the visitor's own photo, kept only in this browser tab.
+  // Size comes from the painting's real inches versus the wall width they enter.
+  const mine = { url: null, x: .5, y: .4, frac: 30 };
+  const mw = sel => $(sel, lb);
+  const mwArt = mw('.mywall-art'), mwStage = mw('.mywall-stage'), mwPhoto = mw('.mywall-photo');
+  const mwFt = mw('.mywall-ft input'), mwSize = mw('.mywall-size input');
+  const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
+  const wallInches = () => clamp(parseFloat(mwFt.value) || 10, 2, 60) * 12;
+
+  function layoutMine(a) {
+    const has = !!mine.url;
+    mw('.mywall-drop').hidden = has;
+    mw('.mywall-work').hidden = !has;
+    if (!has || !a) return;
+    if (mwArt.dataset.id !== a.id) { mwArt.src = imgSrc(a, 'full'); mwArt.dataset.id = a.id; }
+    mwArt.alt = a.title + ' placed on your wall';
+    const d = dims(a);
+    mw('.mywall-ft').hidden = !d;
+    if (d) mine.frac = clamp(d.w / wallInches() * 100, 3, 95);
+    applyMine();
+  }
+  function applyMine() {
+    mwArt.style.width = mine.frac + '%';
+    mwArt.style.left = mine.x * 100 + '%';
+    mwArt.style.top = mine.y * 100 + '%';
+    mwSize.value = mine.frac;
+  }
+
+  function loadWall(file) {
+    const msg = mw('.mywall-drop span');
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    const probe = new Image();
+    probe.onload = () => {
+      if (mine.url) URL.revokeObjectURL(mine.url);
+      mine.url = url; mine.x = .5; mine.y = .4;
+      mwPhoto.src = url;
+      msg.classList.remove('is-err');
+      layoutMine(lbList[lbIndex]);
+    };
+    probe.onerror = () => {
+      URL.revokeObjectURL(url);
+      msg.textContent = 'That photo couldn’t be opened here. Please try a JPG or PNG.';
+      msg.classList.add('is-err');
+    };
+    probe.src = url;
+  }
+  const mwFile = mw('.mywall-file'), mwDrop = mw('.mywall-drop');
+  mwFile.addEventListener('change', () => { loadWall(mwFile.files[0]); mwFile.value = ''; });
+  ['dragenter', 'dragover'].forEach(t => mwDrop.addEventListener(t, () => mwDrop.classList.add('is-over')));
+  ['dragleave', 'drop'].forEach(t => mwDrop.addEventListener(t, () => mwDrop.classList.remove('is-over')));
+  mw('.mywall-change').addEventListener('click', () => { mine.url = null; layoutMine(lbList[lbIndex]); });
+
+  // Wall width typed in: resize. Slider moved: work out the wall width it implies,
+  // so the scale stays true when browsing to a different painting.
+  mwFt.addEventListener('input', () => layoutMine(lbList[lbIndex]));
+  mwSize.addEventListener('input', () => {
+    mine.frac = parseFloat(mwSize.value);
+    const d = dims(lbList[lbIndex]);
+    if (d) mwFt.value = Math.round(d.w / (mine.frac / 100) / 12 * 2) / 2;
+    applyMine();
+  });
+
+  let drag = null;
+  const stagePoint = e => { const r = mwStage.getBoundingClientRect(); return { r, x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height }; };
+  mwArt.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    mwArt.setPointerCapture(e.pointerId);
+    const p = stagePoint(e);
+    drag = { dx: p.x - mine.x, dy: p.y - mine.y };
+    mwArt.classList.add('is-dragging');
+  });
+  mwArt.addEventListener('pointermove', e => {
+    if (!drag) return;
+    const p = stagePoint(e);
+    mine.x = clamp(p.x - drag.dx, 0, 1); mine.y = clamp(p.y - drag.dy, 0, 1);
+    applyMine();
+  });
+  ['pointerup', 'pointercancel'].forEach(t => mwArt.addEventListener(t, () => { drag = null; mwArt.classList.remove('is-dragging'); }));
+  mwPhoto.addEventListener('click', e => { const p = stagePoint(e); mine.x = p.x; mine.y = p.y; applyMine(); });
+
+  // Save the mock-up as a JPG, with a small credit line so it travels well when shared.
+  mw('.mywall-save').addEventListener('click', async () => {
+    const a = lbList[lbIndex];
+    const s = Math.min(1, 2400 / Math.max(mwPhoto.naturalWidth, mwPhoto.naturalHeight));
+    const W = Math.round(mwPhoto.naturalWidth * s), H = Math.round(mwPhoto.naturalHeight * s);
+    const c = document.createElement('canvas'); c.width = W; c.height = H;
+    const x = c.getContext('2d');
+    x.drawImage(mwPhoto, 0, 0, W, H);
+    const art = new Image(); art.src = imgSrc(a, 'full');
+    try { await art.decode(); } catch (_) { return; }
+    const aw = W * mine.frac / 100, ah = aw * art.naturalHeight / art.naturalWidth;
+    const ax = mine.x * W - aw / 2, ay = mine.y * H - ah / 2;
+    x.save();
+    x.shadowColor = 'rgba(0,0,0,.45)'; x.shadowBlur = aw * .06; x.shadowOffsetY = aw * .03;
+    x.fillStyle = '#000'; x.fillRect(ax, ay, aw, ah);
+    x.restore();
+    x.drawImage(art, ax, ay, aw, ah);
+    const fs = Math.max(14, Math.round(W * .016));
+    x.font = `500 ${fs}px "Hanken Grotesk", system-ui, sans-serif`;
+    x.shadowColor = 'rgba(0,0,0,.7)'; x.shadowBlur = fs * .4;
+    x.fillStyle = 'rgba(255,255,255,.92)';
+    x.fillText(`“${a.title}” by Joe Trimmeliti · joetrimmeliti.com`, fs, H - fs);
+    c.toBlob(b => {
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(b);
+      link.download = `${a.id}-on-my-wall.jpg`;
+      document.body.appendChild(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(link.href), 4000);
+    }, 'image/jpeg', .9);
+  });
   $$('.lb-toggle button', lb).forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
   addEventListener('resize', () => { if (!lb.hidden && view === 'room') layoutRoom(lbList[lbIndex]); });
 
@@ -356,7 +475,7 @@
   });
   // swipe between paintings
   let sx = null;
-  $('.lb-stage', lb).addEventListener('touchstart', e => { sx = lbZoom.classList.contains('is-zoomed') ? null : e.touches[0].clientX; }, { passive: true });
+  $('.lb-stage', lb).addEventListener('touchstart', e => { sx = lbZoom.classList.contains('is-zoomed') || view === 'mine' ? null : e.touches[0].clientX; }, { passive: true });
   $('.lb-stage', lb).addEventListener('touchend', e => {
     if (sx === null) return;
     const dx = e.changedTouches[0].clientX - sx;

@@ -321,6 +321,30 @@
         <p class="room-note">Shown to scale above an 84″ sofa.</p>
       </div>
     </div>
+    <div class="lb-view lb-view-mine" hidden>
+      <div class="mywall">
+        <label class="mywall-drop">
+          <input type="file" accept="image/*" class="mywall-file">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="9" width="38" height="30" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><rect x="17" y="16" width="14" height="11" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 33h38" stroke="currentColor" stroke-width="2"/></svg>
+          <b>Upload a photo of your wall</b>
+          <span>Stand back and shoot the wall straight on. Your photo stays on your device. It is never uploaded.</span>
+        </label>
+        <div class="mywall-work" hidden>
+          <div class="mywall-stage">
+            <img class="mywall-photo" alt="Your wall">
+            <img class="mywall-art" alt="" draggable="false">
+          </div>
+          <div class="mywall-controls">
+            <label class="mywall-ft">Wall width in photo <input type="number" min="2" max="60" step="0.5" value="10" inputmode="decimal"> ft</label>
+            <label class="mywall-size">Size <input type="range" min="3" max="95" step="0.5" value="30"></label>
+            <div class="mywall-btns">
+              <button type="button" class="mywall-change">New photo</button>
+              <button type="button" class="mywall-save">Save image</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <aside class="lb-label">
     <p class="lb-count"></p>
@@ -332,6 +356,7 @@
       <div class="lb-toggle" role="group" aria-label="View">
         <button type="button" class="is-on" data-view="art">Painting</button>
         <button type="button" data-view="room">On a wall</button>
+        <button type="button" data-view="mine">Your wall</button>
       </div>
     </div>
     <p class="lb-hint">Click the painting to zoom into the paint.</p>

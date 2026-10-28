@@ -432,7 +432,7 @@ h2 em, h1 em { font-style: italic; }
 .lb-label .label-meta { color: #cfc8bd; }
 .lb-label .label-price.is-sold { color: var(--on-night-muted); }
 .lb-actions { margin-top: 32px; display: grid; gap: 14px; }
-.lb-toggle { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid rgba(241,236,226,.25); border-radius: 999px; padding: 4px; }
+.lb-toggle { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid rgba(241,236,226,.25); border-radius: 999px; padding: 4px; }
 .lb-toggle button { min-height: 40px; border: 0; background: none; border-radius: 999px; font-size: 14px; font-weight: 500; color: var(--on-night-muted); }
 .lb-toggle button.is-on { background: rgba(241,236,226,.14); color: var(--on-night); }
 .lb-toggle button:disabled { opacity: .35; cursor: not-allowed; }
@@ -460,6 +460,37 @@ h2 em, h1 em { font-style: italic; }
 .room-sofa { position: absolute; left: 50%; transform: translateX(-50%); bottom: 12%; height: auto; z-index: 1; }
 .room-note { text-align: center; color: var(--on-night-muted); font-size: 13px; margin: 14px 0 0; }
 
+/* your wall: visitor's own photo with the painting placed on it */
+.mywall [hidden] { display: none !important; }
+.mywall { width: 100%; height: 100%; display: grid; place-items: center; min-height: 0; }
+.mywall-drop {
+  position: relative; display: grid; justify-items: center; gap: 10px; text-align: center; cursor: pointer;
+  width: min(520px, 100%); padding: 48px 28px; border: 1.5px dashed rgba(241,236,226,.35); border-radius: 8px;
+  background: rgba(18,17,23,.4); transition: border-color .2s, background-color .2s;
+}
+.mywall-drop:hover, .mywall-drop.is-over { border-color: var(--on-night); background: rgba(18,17,23,.6); }
+.mywall-drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.mywall-drop svg { width: 48px; height: 48px; color: var(--on-night-muted); }
+.mywall-drop b { font: 400 28px/1.1 var(--serif); }
+.mywall-drop span { font-size: 14px; color: var(--on-night-muted); max-width: 30em; }
+.mywall-drop .is-err { color: #ff9cae; }
+.mywall-work { display: grid; justify-items: center; gap: 14px; width: 100%; min-height: 0; }
+.mywall-stage { position: relative; line-height: 0; touch-action: none; user-select: none; -webkit-user-select: none; box-shadow: 0 40px 90px -30px rgba(0,0,0,.8); }
+.mywall-photo { max-width: 100%; max-height: calc(100vh - 200px); width: auto; height: auto; }
+.mywall-art {
+  position: absolute; transform: translate(-50%, -50%); cursor: grab; touch-action: none;
+  box-shadow: 0 2px 2px rgba(0,0,0,.2), 0 18px 28px -12px rgba(0,0,0,.55);
+}
+.mywall-art.is-dragging { cursor: grabbing; outline: 2px solid rgba(255,255,255,.7); outline-offset: 3px; }
+.mywall-controls { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px 22px; font-size: 14px; color: #cfc8bd; }
+.mywall-controls label { display: inline-flex; align-items: center; gap: 8px; }
+.mywall-ft input { width: 64px; min-height: 36px; padding: 0 8px; border-radius: 6px; border: 1px solid rgba(241,236,226,.3); background: rgba(18,17,23,.6); color: var(--on-night); font: 500 15px var(--sans); }
+.mywall-size input { width: 130px; accent-color: var(--cadmium); }
+.mywall-btns { display: flex; gap: 8px; }
+.mywall-btns button { min-height: 36px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(241,236,226,.3); background: none; color: var(--on-night); font-size: 14px; font-weight: 500; }
+.mywall-btns button:hover { border-color: var(--on-night); }
+.mywall-btns .mywall-save { background: var(--on-night); color: var(--ink); border-color: var(--on-night); }
+
 @media (max-width: 900px) {
   .lightbox { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; }
   .lb-stage { padding: 64px 12px 12px; }
@@ -469,6 +500,11 @@ h2 em, h1 em { font-style: italic; }
   .lb-count { margin-bottom: 8px; }
   .lb-actions { margin-top: 18px; grid-template-columns: 1fr; }
   .lb-hint { display: none; }
+  .mywall-photo { max-height: calc(100svh - 430px); }
+  .mywall-drop { padding: 28px 18px; }
+  .mywall-drop b { font-size: 22px; }
+  .mywall-controls { gap: 8px 14px; font-size: 13px; }
+  .lb-toggle button { font-size: 13px; }
   .lb-nav { top: auto; bottom: auto; top: 40%; }
   .lb-next { right: 10px; }
   .lb-prev { left: 10px; }
